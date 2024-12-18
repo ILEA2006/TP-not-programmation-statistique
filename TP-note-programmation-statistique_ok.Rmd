@@ -7,12 +7,31 @@ output: html_document
 
 ```{r}
 library(dplyr)
-Data<-list.files(path="C:/Users/igouw/OneDrive/Documents/Examen prog stat/exam_data",pattern=".csv",full.names=TRUE) %>% 
+
+read_data<- function(chemin, start_date, end_date) {
+data<-list.files(path=chemin,pattern=".csv",full.names=TRUE)%>%
 lapply(read.csv) %>% 
-bind_rows()
+  bind_rows()
+
+data$date<-as.Date(data$date, format="%Y-%m-%d")
+
+data_filtre<- data %>% 
+  filter(date>=as.Date(start_date) & date<=as.Date(end_date))
+
+  return(data_filtre)
+}
+
+Data<-read_data("C:/Users/igouw/OneDrive/Documents/Examen prog stat/exam_data","2020-01-01","2024-12-31")
+
+
+  
+
+
 library(ggplot2)
-ggplot(Data, aes(x = date, y =nb_de_ventes))+
-  geom_line(color = "red", linewidth= 1, group =1)
+ggplot(Data, aes(x=date, y=nb_de_ventes))+
+  geom_line(color="red", linewidth= 1, group=1)+
+  labs(title = "Evolution des ventes du FXD JET 100 (2020-2024)", subtitle = "Les ventes mensuelles entre le 1er janvier 2020 et le 31 décembre 2024", x="Date", y="Nombre de ventes")+
+  theme_minimal()
 
 
 
