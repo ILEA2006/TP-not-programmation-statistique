@@ -1,0 +1,23 @@
+---
+title: "TP noté programmation statistique"
+author: "lore Igouwe"
+date: "2024-12-18"
+output: html_document
+---
+
+```{r}
+library(dplyr)
+Data<-list.files(path="C:/Users/igouw/OneDrive/Documents/Examen prog stat/exam_data",pattern=".csv",full.names=TRUE) %>% 
+lapply(read.csv) %>% 
+bind_rows()
+
+select(*)
+filter(Data,date["2020-01-01":"2024-12-3"])
+
+library(ggplot2)
+ggplot(Data, aes(x = date, y =nb_de_ventes))+
+  geom_line(color = "red", linewidth= 1, group =1)
+
+
+
+```
